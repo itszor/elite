@@ -1,0 +1,17 @@
+# Python / editors
+__pycache__/
+*.pyc
+*.swp
+
+# Analysis outputs (tools/images.py analyse, or make regen in recomp/)
+analysis/*.json
+
+# Recompilation: generated C, objects, binaries, run outputs
+recomp/gen/
+recomp/*.o
+recomp/elite
+recomp/recomp.*
+recomp/*.log
+recomp/screenshot-*.bmp
+recomp/*.wav
+recomp/savedata/
