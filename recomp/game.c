@@ -154,6 +154,12 @@ static int game_arg(const char *a)
 
 static struct roger_config config = {
     .title = "Elite (recompiled)",
+    /* a controller, for flying by keyboard (--mouse=off): roll < > (the
+     * comma and full stop keys: inkey103, inkey104), dive S pushing, climb X
+     * pulling, A laser, B missile (M), X target (T), Y ECM (E), the right
+     * trigger faster (Space), the left slower (? /), LB hyperspace (H), RB
+     * jump (J), start launch (F1); back nothing (Escape is the escape pod) */
+    .pad_map = "left=inkey103,right=inkey104,up=S,down=X,a=A,b=M,x=T,y=E,rt=Space,lt=/,lb=H,rb=J,start=F1,back=none",
     .image_path = "../game/!Elite/Elite,ff8",
     .image = &recomp_image,
     .modules = modules,
