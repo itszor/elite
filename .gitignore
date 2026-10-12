@@ -15,3 +15,10 @@ recomp/*.log
 recomp/screenshot-*.bmp
 recomp/*.wav
 recomp/savedata/
+
+# The original and everything made from it: build.sh (recipe.json) remakes
+# them from the user's own copy.
+/elite/
+*.zip
+extracted/
+game/

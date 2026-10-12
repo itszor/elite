@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """The translated images of Archimedes Elite and the steps that build them.
 
+    images.py assemble  the zip's elite/ (extracted/zip, from SuperSpider's
+                        weave.py: recipe.json) -> game/, libroger's appdir:
+                        !élite as !Elite, !System, and the commanders in
+                        Commanders; filetypes as ,xxx suffixes
     images.py analyse   SuperSpider (superspider analyse --full) on every image:
                         analysis/<name>.json; analysis/<name>.roots, if there,
                         adds entry points
@@ -10,7 +14,7 @@
     images.py gen       superspider gen for every image -> recomp/gen/<name>/,
                         plus recomp/gen/modules.inc (game.c's module list)
 
-Images (extracted/: the original elite/ with filetypes, see ../README.md):
+Images (game/: the original elite/ with filetypes, see ../README.md):
   elite      !Elite.Elite: the game, an AIF image (C, Shared C Library)
              at &8000.
   s_<name>   the five sound modules Sounds.LoadSounds RMLoads.
@@ -26,7 +30,8 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 TOP = os.path.dirname(HERE)
-EXT = os.path.join(TOP, 'extracted')
+EXT = os.path.join(TOP, 'game')
+ZIP = os.path.join(TOP, 'extracted', 'zip', 'elite')    # weave.py's extraction
 SS = os.environ.get('SUPERSPIDER', os.path.expanduser('~/stuff/superspider'))
 SSBIN = os.path.join(SS, '_build/default/bin/main.exe')
 
@@ -37,9 +42,30 @@ RMA_SLOTS = 0x1840000
 
 
 def images():
-    """(name, path relative to extracted/, base, is module)"""
+    """(name, path relative to game/, base, is module)"""
     return [('elite', ELITE, 0x8000, False)] + [
         (name, path, RMA_SLOTS + k * 0x10000, True) for k, (name, path) in enumerate(MODULES)]
+
+
+def assemble():
+    """game/ from the zip's elite/: each file used, its filetype as ,xxx"""
+    import shutil
+    shutil.rmtree(EXT, ignore_errors=True)
+    for src, dst in [('!\xe9lite', '!Elite'), ('!System/Modules', '!System/Modules'),
+                     ('Gisburne', 'Commanders/Gisburne'), ('Jameson', 'Commanders/Jameson')]:
+        top = ZIP
+        for part in src.split('/'):                     # the zip's names carry ,load-exec
+            top = os.path.join(top, next(f for f in os.listdir(top) if f.split(',')[0] == part))
+        files = [(top, dst)] if not os.path.isdir(top) else \
+            [(os.path.join(d, f), os.path.join(dst, os.path.relpath(os.path.join(d, f), top)))
+             for d, _, fs in os.walk(top) for f in fs]
+        for a, b in files:
+            b = b.split(',')[0] if os.path.isdir(top) else b
+            load = int(a.rsplit(',', 1)[1].split('-')[0], 16)
+            assert load >> 20 == 0xFFF, a               # all typed
+            out = os.path.join(EXT, '%s,%03x' % (b.split(',')[0], (load >> 8) & 0xFFF))
+            os.makedirs(os.path.dirname(out), exist_ok=True)
+            shutil.copyfile(a, out)
 
 
 def run(cmd):
@@ -82,7 +108,7 @@ def gen():
         f.write('static const struct roger_module modules[] = {\n')
         for name, path, _, module in images():
             if module:
-                f.write('    {"../extracted/%s", &recomp_%s_image, %d},\n' % (path, name, name.startswith('s_')))
+                f.write('    {"../game/%s", &recomp_%s_image, %d},\n' % (path, name, name.startswith('s_')))
         f.write('    {NULL, NULL, 0}};\n')
 
 
@@ -93,4 +119,4 @@ if __name__ == '__main__':
         roots(sys.argv[2:])
     else:
         for step in sys.argv[1:]:
-            {'analyse': analyse, 'gen': gen}[step]()
+            {'assemble': assemble, 'analyse': analyse, 'gen': gen}[step]()

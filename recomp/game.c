@@ -147,10 +147,10 @@ static int game_arg(const char *a)
 
 static struct roger_config config = {
     .title = "Elite (recompiled)",
-    .image_path = "../extracted/!Elite/Elite,ff8",
+    .image_path = "../game/!Elite/Elite,ff8",
     .image = &recomp_image,
     .modules = modules,
-    .appdir = "../extracted",
+    .appdir = "../game",
     .dir_prefixes = prefixes,
     .variables = variables,
     .command_line = command_line,

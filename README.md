@@ -7,10 +7,21 @@ a fix for drawing outside screen memory) - `elite/`, a copy of the
 application directory with its !System and commanders. That is the latest
 release: Ian Bell's site has 1.14 too (Richard Goodwin's earlier patch).
 
-    extracted/          elite/ with RISC OS filetypes as ,xxx suffixes (the copy had
-                        lost them; types from !Run and the files): !Elite (the
-                        application, renamed from !Élite), !System, Commanders
-                        (Jameson, Gisburne)
+A recipe: this repository holds no game data. It rebuilds the game from
+your own copy, recognised by content (recipe.json):
+
+    ./build.sh elite.zip       (a zip of elite/ with its RISC OS filetypes, or the directory)
+    cd recomp && ./elite
+
+build.sh runs recipe.json's steps with SuperSpider's tools/weave.py
+(~/stuff/superspider, or $SUPERSPIDER): it unpacks the zip to extracted/zip
+(the filetypes, from the zip's RISC OS extra fields, as ,load-exec
+suffixes), then the steps below. Needs python3, OCaml/dune, gcc and SDL3.
+
+    game/               libroger's appdir (tools/images.py assemble): from the
+                        zip's elite/, !Elite (the application, renamed from
+                        !élite), !System's modules and Commanders (Jameson,
+                        Gisburne), filetypes as ,xxx suffixes
     tools/images.py     analyse / gen / roots: the program and the five sound modules
     analysis/           SuperSpider's results; elite.roots: one gap entry
     recomp/             make regen, make, ./elite
