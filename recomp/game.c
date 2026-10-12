@@ -23,8 +23,15 @@ static const char *const variables[] = {
     "File$Type_C87", "EliteCom", NULL,
 };
 
-/* What !Boot does when the Filer first sees the application */
-static void game_init(void) { roger_cli("IconSprites <Elite$Dir>.!Sprites"); }
+/* What !Boot does when the Filer first sees the application; and on the
+ * desktop (--desktop), the commanders' directory open, to load one from
+ * (double-click, or drag it to the icon bar icon) and save to (drag the
+ * save box's icon there) */
+static void game_init(void)
+{
+    roger_cli("IconSprites <Elite$Dir>.!Sprites");
+    roger_filer_open("Commanders");
+}
 
 /* ---- The front end, without a desktop to show it on.
  *

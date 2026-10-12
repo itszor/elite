@@ -23,7 +23,8 @@ suffixes), then the steps below. Needs python3, OCaml/dune, gcc and SDL3.
                         !élite), !System's modules and Commanders (Jameson,
                         Gisburne), filetypes as ,xxx suffixes
     tools/images.py     analyse / gen / roots: the program and the five sound modules
-    analysis/           SuperSpider's results; elite.roots: one gap entry
+    analysis/           SuperSpider's results; elite.roots: gap entries (the
+                        last: the front end loading a commander dropped on it)
     recomp/             make regen, make, ./elite
 
 The program is C, on the Shared C Library: an AIF image linked with the
@@ -56,6 +57,13 @@ libroger shows no desktop, so game.c stands in for the user:
   set the Preferences in the front end's dialogue and Save them (Choices,
   in the save directory: they last).
 
+With --desktop the desktop is shown and the user works the front end;
+the Commanders directory is open in a viewer (libroger's Filer). A
+commander is loaded by double-clicking it there (Message_DataOpen) or
+dragging it to the icon bar icon (Message_DataLoad), and saved by dragging
+the Save box's icon to the viewer - to the save directory, where the
+viewer finds it too.
+
 Flying: the shipped Choices has Mouse on, and then the game steers by mouse
 only - --mouse=off flies by keyboard (< > roll, S X dive/climb, Space ?
 faster/slower, as the manual has them). F1 launches; for the rest see the
@@ -72,7 +80,8 @@ pool and Wimp_SpriteOp, Wimp_ReadSysInfo; dialogue boxes opened as menus,
 option icons toggled by clicks, and a Filer stand-in for the save
 protocol; typed saves (,xxx) and HostFS:; circles and ellipses; SetEval
 with arithmetic; *ChannelVoice, the sound scheduler (Sound_QSchedule: every
-sound effect) and WaveSynth-Beep.
+sound effect) and WaveSynth-Beep. For --desktop: directory viewers (a
+Filer in-process) and the data transfer protocol both ways.
 
 Not checked yet
 ---------------
