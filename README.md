@@ -11,17 +11,29 @@ A recipe: this repository holds no game data. It rebuilds the game from
 your own copy, recognised by content (recipe.json):
 
     ./build.sh elite.zip       (a zip of elite/ with its RISC OS filetypes, or the directory)
+    ./build.sh b5052420.zip    (or the "Archie-emulable" ELITE.ADF, or a zip of it)
     cd recomp && ./elite
+
+The ADF has 1.14 as it was released: the same files, but the program
+encrypted (layers of XOR stubs, each rewriting the branch the ARM has
+already fetched) and squeezed, and without Lee's patch. tools/unpack.py
+runs its loader in SuperSpider's arm2.py and applies the patch (69 words in
+the pixel plotter at &2809C: each point checked against the 320x256 screen),
+giving the zip's program - the same code and data; past the zero-init area,
+zeros where the zip's (a dump of the 450K WimpSlot) has heap left-overs. The
+recompilation from either is the same. In recipe.json the ADF is the zip
+disc's alternative "adf".
 
 build.sh runs recipe.json's steps with SuperSpider's tools/weave.py
 (~/stuff/superspider, or $SUPERSPIDER): it unpacks the zip to extracted/zip
 (the filetypes, from the zip's RISC OS extra fields, as ,load-exec
-suffixes), then the steps below. Needs python3, OCaml/dune, gcc and SDL3.
+suffixes) - or the ADF to extracted/adf - then the steps below. Needs python3, OCaml/dune, gcc and SDL3.
 
     game/               libroger's appdir (tools/images.py assemble): from the
-                        zip's elite/, !Elite (the application, renamed from
-                        !élite), !System's modules and Commanders (Jameson,
-                        Gisburne), filetypes as ,xxx suffixes
+                        zip's elite/ (or the ADF), !Elite (the application,
+                        renamed from !élite), !System's modules and Commanders
+                        (Jameson, Gisburne), filetypes as ,xxx suffixes
+    tools/unpack.py     the ADF's program -> the zip's (assemble runs it)
     tools/images.py     analyse / gen / roots: the program and the five sound modules
     analysis/           SuperSpider's results; elite.roots: gap entries (the
                         last: the front end loading a commander dropped on it)

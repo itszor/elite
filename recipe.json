@@ -5,10 +5,12 @@
  "doc": "A recipe: how to turn a user's own copy of the game into a native executable. It holds no game data: the inputs are recognised by content (see $SS/tools/weave.py).",
  "inputs": {
   "containers": {
-   "elite.zip": "f87eaacd78ff4aec61fb31c34fec3ddfa535fdf52a9f72945cb24717645b5308"
+   "elite.zip": "f87eaacd78ff4aec61fb31c34fec3ddfa535fdf52a9f72945cb24717645b5308",
+   "b5052420.zip": "d70288246e9b2c61dcbd321d149da12a3ffb14f2468bef9456afb2c93c90f667"
   },
   "formats": [
    "zip",
+   "adf",
    "directory"
   ]
  },
@@ -36,7 +38,34 @@
     "elite/!élite/Sprites": "fcddfba34b1ce83d6de899abd1320c793c4ad116799a4c58d3beaf82c13e7aea",
     "elite/!élite/Templates": "7e842934e4037cd642cb9ff586cdde54039f0694eb42303d1f87ae64547d0c07"
    },
-   "game_dirs": []
+   "game_dirs": [],
+   "alternatives": [
+    {
+     "name": "adf",
+     "title": "ELITE.ADF (\"Archie-emulable\"): 1.14 as released - the program encrypted and squeezed, without Lee's patch (tools/unpack.py)",
+     "known_images": [
+      "f547de606363ac47c2cd66cc48a4a848ad7811a10701840d9835305a3687e689"
+     ],
+     "key_files": {
+      "!System/Modules/CLib": "1d7134fb6a67127e3dcd084b3183183bbd34625357168790f003a8a09cd3e6ba",
+      "!élite/!Boot": "653a0e930d1589f380438ca4095b92899d147fa54421403fc576161c8a5ed9f2",
+      "!élite/!Run": "02fa43fc8d5f7f7b3d2a4410000eaf80b9864c0ec9dd9d311b11f622fae5321c",
+      "!élite/!Sprites": "7310038616964f37576fabebca1eb91dea44d7e0761614bbc2f908004ea063fa",
+      "!élite/CLockUtils": "4da3d759c7a63ba00a61e36152727653a47787715118dd834865a105d3a5a91a",
+      "!élite/Messages": "1d7d869e1d010503bcd75fd3e123f156a9735dbcf897f538009a58b8668399ca",
+      "!élite/Sounds/ELexplode": "000cdf3cf366e4e3225ae7b5943536d7ef2568e93353bffbae4d6cb2b3b71a7f",
+      "!élite/Sounds/ELlaser": "9e0f465c37be37e7035107b34e2fa95054ad44d1bae34d90992251a93efa41cb",
+      "!élite/Sounds/ELmystic": "384541982630e893673f7d578e9a149abe8eaa26688d88fff44a9a3510b9d2cd",
+      "!élite/Sounds/ELsiren": "9b139e679390b9bb8ab698b886332c66eb574d56a780380bc4e047acdc5ae96d",
+      "!élite/Sounds/ELwoosh": "2a41350d42b65387a5fd60fb138d60cba795f756133a253e195b740c008c23a4",
+      "!élite/Sounds/LoadSounds": "148cf4bc1828873b593f1825991d2b280b33f6e9b8c7f161788e7b32ec04aaff",
+      "!élite/Sprites": "fcddfba34b1ce83d6de899abd1320c793c4ad116799a4c58d3beaf82c13e7aea",
+      "!élite/Templates": "7e842934e4037cd642cb9ff586cdde54039f0694eb42303d1f87ae64547d0c07",
+      "!élite/élite": "2302fca96f21f2e1593d90c60d56f885d66aaceb6cd4f244591e8c719103da20"
+     },
+     "game_dirs": []
+    }
+   ]
   }
  ],
  "build": [

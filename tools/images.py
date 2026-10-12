@@ -4,7 +4,10 @@
     images.py assemble  the zip's elite/ (extracted/zip, from SuperSpider's
                         weave.py: recipe.json) -> game/, libroger's appdir:
                         !élite as !Elite, !System, and the commanders in
-                        Commanders; filetypes as ,xxx suffixes
+                        Commanders; filetypes as ,xxx suffixes. Or the ADF
+                        (extracted/adf), the same files at its top, its
+                        !élite.élite unpacked and patched (tools/unpack.py)
+                        as the zip's !élite.Elite
     images.py analyse   SuperSpider (superspider analyse --full) on every image:
                         analysis/<name>.json; analysis/<name>.roots, if there,
                         adds entry points
@@ -32,6 +35,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 TOP = os.path.dirname(HERE)
 EXT = os.path.join(TOP, 'game')
 ZIP = os.path.join(TOP, 'extracted', 'zip', 'elite')    # weave.py's extraction
+ADF = os.path.join(TOP, 'extracted', 'adf')             # or the ADF's
 SS = os.environ.get('SUPERSPIDER', os.path.expanduser('~/stuff/superspider'))
 SSBIN = os.path.join(SS, '_build/default/bin/main.exe')
 
@@ -48,12 +52,13 @@ def images():
 
 
 def assemble():
-    """game/ from the zip's elite/: each file used, its filetype as ,xxx"""
+    """game/ from the zip's elite/ (or the ADF): each file used, its filetype as ,xxx"""
     import shutil
     shutil.rmtree(EXT, ignore_errors=True)
+    adf = not os.path.isdir(ZIP)
     for src, dst in [('!\xe9lite', '!Elite'), ('!System/Modules', '!System/Modules'),
                      ('Gisburne', 'Commanders/Gisburne'), ('Jameson', 'Commanders/Jameson')]:
-        top = ZIP
+        top = ADF if adf else ZIP
         for part in src.split('/'):                     # the zip's names carry ,load-exec
             top = os.path.join(top, next(f for f in os.listdir(top) if f.split(',')[0] == part))
         files = [(top, dst)] if not os.path.isdir(top) else \
@@ -66,6 +71,10 @@ def assemble():
             out = os.path.join(EXT, '%s,%03x' % (b.split(',')[0], (load >> 8) & 0xFFF))
             os.makedirs(os.path.dirname(out), exist_ok=True)
             shutil.copyfile(a, out)
+    if adf:                                             # the program as the zip has it
+        packed = os.path.join(EXT, '!Elite', '\xe9lite,ff8')
+        run([sys.executable, '-I', os.path.join(HERE, 'unpack.py'), packed, os.path.join(EXT, ELITE)])
+        os.remove(packed)
 
 
 def run(cmd):

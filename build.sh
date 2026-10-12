@@ -1,6 +1,7 @@
 #!/bin/sh
 # Build Archimedes Elite from your own copy of the game:
 #     ./build.sh elite.zip      (a zip of the elite/ directory, with RISC OS filetypes)
+#     ./build.sh b5052420.zip   (or the "Archie-emulable" ELITE.ADF: 1.14 as released)
 # then: cd recomp && ./elite
 # The steps are recipe.json's "build", run by SuperSpider's tools/weave.py.
 set -e
