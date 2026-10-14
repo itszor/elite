@@ -73,8 +73,9 @@ With --desktop the desktop is shown and the user works the front end;
 the Commanders directory is open in a viewer (libroger's Filer). A
 commander is loaded by double-clicking it there (Message_DataOpen) or
 dragging it to the icon bar icon (Message_DataLoad), and saved by dragging
-the Save box's icon to the viewer - to the save directory, where the
-viewer finds it too.
+the Save box's icon to the viewer (or to the Commanders icon on the icon
+bar's left) - to the save directory, where the viewer finds it too. A
+click on that icon opens the viewer again if it's been closed or lost.
 
 Flying: the shipped Choices has Mouse on, and then the game steers by mouse
 only - --mouse=off flies by keyboard (< > roll, S X dive/climb, Space ?
